@@ -1,5 +1,9 @@
 package runner;
 
-public class Runner {
+import presenters.Presenter;
 
+public class Runner {
+    public static void main(String[] args) {
+        new Presenter();
+    }
 }
