@@ -1,5 +1,7 @@
 package views;
 
+import presenters.Constants;
+
 import javax.swing.*;
 import java.util.Objects;
 
