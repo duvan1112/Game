@@ -4,11 +4,6 @@ import presenters.Constants;
 
 public class Hero {
 
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 100;
-    public static final int MOVE_SIZE = 5;
-    public static final int MAX_LIVES = 3;
-
     private int posX;
     private  int posY;
     private int lives;
@@ -16,30 +11,30 @@ public class Hero {
     public Hero(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        lives = MAX_LIVES;
+        lives = Constants.HERO_MAX_LIVES;
     }
 
     public void moveLeft() {
-        if(posX - MOVE_SIZE >= 0){
-            posX -= MOVE_SIZE;
+        if(posX - Constants.HERO_MOVE_SIZE >= 0){
+            posX -= Constants.HERO_MOVE_SIZE;
         }
     }
 
     public void moveRight() {
-        if((posX + WIDTH) <= Constants.GAME_WIDTH){
-            posX += MOVE_SIZE;
+        if((posX + Constants.HERO_WIDTH) <= Constants.GAME_WIDTH){
+            posX += Constants.HERO_MOVE_SIZE;
         }
     }
 
     public void moveUp(){
-        if ((posY-MOVE_SIZE)>=0){
-            posY-=MOVE_SIZE;
+        if ((posY- Constants.HERO_MOVE_SIZE)>=0){
+            posY-= Constants.HERO_MOVE_SIZE;
         }
     }
 
     public void moveDown(){
-        if ((posY+HEIGHT)>=Constants.GAME_HEIGHT){
-            posY+=MOVE_SIZE;
+        if ((posY+ Constants.HERO_HEIGHT)<=Constants.GAME_HEIGHT){
+            posY+= Constants.HERO_MOVE_SIZE;
         }
     }
 
