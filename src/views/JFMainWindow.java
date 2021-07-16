@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class JFMainWindow extends JFrame {
 
-    private MainPanel mainPanel;
+    private final MainPanel mainPanel;
 
     public JFMainWindow(KeyListener keyListener) {
         setSize(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);

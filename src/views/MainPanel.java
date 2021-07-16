@@ -1,5 +1,6 @@
 package views;
 
+import models.Enemy;
 import models.IGame;
 import presenters.Constants;
 
@@ -10,10 +11,9 @@ import java.awt.image.BufferedImage;
 
 public class MainPanel extends JPanel {
 
-    public BufferedImage background;
+    private BufferedImage background;
 
     public MainPanel(KeyListener keyListener) {
-        setSize(Constants.GAME_WIDTH,Constants.GAME_HEIGHT);
         addKeyListener(keyListener);
     }
 
@@ -31,13 +31,16 @@ public class MainPanel extends JPanel {
     }
 
     private void paintBackground() {
-        if(background == null) {
+        if (background == null) {
             background = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         }
+        Graphics g = background.getGraphics();
+        g.setColor(Color.BLACK);
     }
 
     private void paintHero(IGame gameData) {
         Graphics g = background.getGraphics();
+        super.paint(g);
         g.setColor(Color.BLUE);
         g.fillRect(gameData.getHeroPositionX(), gameData.getHeroPositionY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT);
     }
@@ -45,7 +48,10 @@ public class MainPanel extends JPanel {
     private void paintEnemies(IGame gameData) {
         Graphics g = background.getGraphics();
         g.setColor(Color.red);
-        g.fillRect(400, 300, Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
+        for (Enemy enemy : gameData.getEnemies()) {
+            g.drawRect(enemy.getPosX(), enemy.getPosY(), Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
+        }
+
     }
 
     @Override
