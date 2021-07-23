@@ -35,13 +35,13 @@ public class Enemy {
     }
 
     public void moveDown(){
-        if ((posY+ Constants.HERO_HEIGHT)>=Constants.GAME_HEIGHT){
+        if ((posY+ Constants.HERO_HEIGHT)<=Constants.GAME_HEIGHT){
             posY+= Constants.ENEMY_MOVE_SIZE;
         }
     }
 
     public boolean checkCollision(Rectangle rectangle) {
-        Rectangle recEnemy = new Rectangle(posX, posX, Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
+        Rectangle recEnemy = new Rectangle(posX, posY, Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
         return recEnemy.intersects(rectangle);
     }
 

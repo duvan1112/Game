@@ -5,7 +5,7 @@ import presenters.Constants;
 public class Game extends Thread implements IGame {
 
     private final Hero hero;
-    private  Enemy[] enemies;
+    private final Enemy[] enemies;
     private boolean play;
 
     public Game(){
@@ -24,6 +24,39 @@ public class Game extends Thread implements IGame {
         enemies[4]=new Enemy(400,500);
         enemies[5]=new Enemy(900,400);
         enemies[6]=new Enemy(800,450);
+    }
+
+    @Override
+    public void run() {
+        while (play){
+          enemies[0].moveDown();
+          enemies[1].moveRight();
+
+          checkCollisions();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void enemyMovementUpDown(){
+
+    }
+
+    private void checkCollisions() {
+        for (Enemy enemy : enemies) {
+            if(hero.checkCollision(enemy)){
+                hero.setPosX(Constants.HERO_INIT_POS_X);
+                hero.setPosY(Constants.HERO_INIT_POS_Y);
+                hero.reduceLives();
+                if(hero.isTotallyDead()){
+                    play = false;
+                    break;
+                }
+            }
+        }
     }
 
     public void moveHeroLeft() {

@@ -11,8 +11,8 @@ import java.awt.event.KeyListener;
 
 public class Presenter implements ActionListener, KeyListener {
 
-    private JFMainWindow window;
-    private Game game;
+    private final JFMainWindow window;
+    private final Game game;
 
     public Presenter() {
         game = new Game();
@@ -21,18 +21,13 @@ public class Presenter implements ActionListener, KeyListener {
     }
 
     private void updateUi() {
-        Timer timerUpdate = new Timer(0, e -> window.refreshGame(game));
+        Timer timerUpdate = new Timer(1, e -> window.refreshGame(game));
         timerUpdate.start();
     }
 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {
 
     }
 
@@ -53,6 +48,11 @@ public class Presenter implements ActionListener, KeyListener {
                 game.moveHeroDown();
                 break;
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
     }
 
     @Override

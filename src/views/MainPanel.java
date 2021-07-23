@@ -43,6 +43,7 @@ public class MainPanel extends JPanel {
         super.paint(g);
         g.setColor(Color.BLUE);
         g.fillRect(gameData.getHeroPositionX(), gameData.getHeroPositionY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT);
+        g.drawString(gameData.getHeroLives() + " / 3", 1000, 20);
     }
 
     private void paintEnemies(IGame gameData) {
@@ -59,6 +60,4 @@ public class MainPanel extends JPanel {
         super.paint(g);
         g.drawImage(background, 0, 0, this);
     }
-
-
 }
