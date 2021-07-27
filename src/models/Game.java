@@ -6,33 +6,45 @@ public class Game extends Thread implements IGame {
 
     private final Hero hero;
     private final Enemy[] enemies;
+    private final Wall[] walls;
     private boolean play;
 
-    public Game(){
-        hero = new Hero(Constants.HERO_INIT_POS_X,Constants.HERO_INIT_POS_Y);
-        enemies= new Enemy[7];
-        play =true;
-        createEnemies();
+    public Game() {
+        hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
+        enemies = new Enemy[7];
+        walls = new Wall[5];
+        play = true;
+        initComponents();
         start();
     }
 
-    private void createEnemies() {
-        enemies[0]=new Enemy(30,20);
-        enemies[1]=new Enemy(500,200);
-        enemies[2]=new Enemy(400,400);
-        enemies[3]=new Enemy(500,450);
-        enemies[4]=new Enemy(400,500);
-        enemies[5]=new Enemy(900,400);
-        enemies[6]=new Enemy(800,450);
+    private void initComponents() {
+        enemies[0] = new Enemy(80, 20);
+        enemies[1] = new Enemy(500, 200);
+        enemies[2] = new Enemy(320, 350);
+        enemies[3] = new Enemy(600, 450);
+        enemies[4] = new Enemy(350, 530);
+        enemies[5] = new Enemy(900, 400);
+        enemies[6] = new Enemy(800, 500);
+
+        walls[0] = new Wall(0,300,150,20);
+        walls[1] = new Wall(200,0,20,150);
+        walls[2] = new Wall(130,500,20,220);
+        walls[3] = new Wall(300,300,20,420);
+        walls[4] = new Wall(650,300,20,420);
     }
 
     @Override
     public void run() {
-        while (play){
-          enemies[0].moveDown();
-          enemies[1].moveRight();
-
-          checkCollisions();
+        while (play) {
+            enemies[0].moveUpDown(0,300);
+            enemies[1].moveRightLeft(0,Constants.GAME_WIDTH);
+            enemies[2].moveRightLeft(320,650);
+            enemies[3].moveRightLeft(320,650);
+            enemies[4].moveRightLeft(320,650);
+            enemies[5].moveRightLeft(670,Constants.GAME_WIDTH);
+            enemies[6].moveRightLeft(670,Constants.GAME_WIDTH);
+            checkCollisions();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -41,17 +53,13 @@ public class Game extends Thread implements IGame {
         }
     }
 
-    private void enemyMovementUpDown(){
-
-    }
-
     private void checkCollisions() {
         for (Enemy enemy : enemies) {
-            if(hero.checkCollision(enemy)){
+            if (hero.checkCollision(enemy)) {
                 hero.setPosX(Constants.HERO_INIT_POS_X);
                 hero.setPosY(Constants.HERO_INIT_POS_Y);
                 hero.reduceLives();
-                if(hero.isTotallyDead()){
+                if (hero.isTotallyDead()) {
                     play = false;
                     break;
                 }
@@ -67,11 +75,11 @@ public class Game extends Thread implements IGame {
         hero.moveRight();
     }
 
-    public void moveHeroUP(){
+    public void moveHeroUP() {
         hero.moveUp();
     }
 
-    public void moveHeroDown(){
+    public void moveHeroDown() {
         hero.moveDown();
     }
 
@@ -87,12 +95,17 @@ public class Game extends Thread implements IGame {
 
     @Override
     public Enemy[] getEnemies() {
-        return  enemies;
+        return enemies;
     }
 
     @Override
     public int getHeroLives() {
         return hero.getLives();
+    }
+
+    @Override
+    public Wall[] getWalls() {
+        return walls;
     }
 
 }

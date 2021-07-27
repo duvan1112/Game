@@ -25,6 +25,7 @@ public class MainPanel extends JPanel {
 
     public void updateGame(IGame gameData) {
         paintBackground();
+        paintWalls(gameData);
         paintHero(gameData);
         paintEnemies(gameData);
         repaint();
@@ -35,12 +36,20 @@ public class MainPanel extends JPanel {
             background = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         }
         Graphics g = background.getGraphics();
+        super.paint(g);
         g.setColor(Color.BLACK);
+    }
+
+    private void paintWalls(IGame gameData) {
+        Graphics g = background.getGraphics();
+        g.setColor(Color.ORANGE);
+        for (int i = 0; i < gameData.getWalls().length; i++) {
+            g.drawRect(gameData.getWalls()[i].x,gameData.getWalls()[i].y,gameData.getWalls()[i].width,gameData.getWalls()[i].height);
+        }
     }
 
     private void paintHero(IGame gameData) {
         Graphics g = background.getGraphics();
-        super.paint(g);
         g.setColor(Color.BLUE);
         g.fillRect(gameData.getHeroPositionX(), gameData.getHeroPositionY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT);
         g.drawString(gameData.getHeroLives() + " / 3", 1000, 20);
