@@ -2,6 +2,8 @@ package models;
 
 import presenters.Constants;
 
+import java.awt.*;
+
 public class Game extends Thread implements IGame {
 
     private final Hero hero;
@@ -27,23 +29,23 @@ public class Game extends Thread implements IGame {
         enemies[5] = new Enemy(900, 400);
         enemies[6] = new Enemy(800, 500);
 
-        walls[0] = new Wall(0,300,150,20);
-        walls[1] = new Wall(200,0,20,150);
-        walls[2] = new Wall(130,500,20,220);
-        walls[3] = new Wall(300,300,20,420);
-        walls[4] = new Wall(650,300,20,420);
+        walls[0] = new Wall(0, 300, 150, 20);
+        walls[1] = new Wall(200, 0, 20, 150);
+        walls[2] = new Wall(130, 500, 20, 220);
+        walls[3] = new Wall(300, 300, 20, 420);
+        walls[4] = new Wall(650, 300, 20, 420);
     }
 
     @Override
     public void run() {
         while (play) {
-            enemies[0].moveUpDown(0,300);
-            enemies[1].moveRightLeft(0,Constants.GAME_WIDTH);
-            enemies[2].moveRightLeft(320,650);
-            enemies[3].moveRightLeft(320,650);
-            enemies[4].moveRightLeft(320,650);
-            enemies[5].moveRightLeft(670,Constants.GAME_WIDTH);
-            enemies[6].moveRightLeft(670,Constants.GAME_WIDTH);
+            enemies[0].moveUpDown(0, 300);
+            enemies[1].moveRightLeft(0, Constants.GAME_WIDTH);
+            enemies[2].moveRightLeft(320, 650);
+            enemies[3].moveRightLeft(320, 650);
+            enemies[4].moveRightLeft(320, 650);
+            enemies[5].moveRightLeft(670, Constants.GAME_WIDTH);
+            enemies[6].moveRightLeft(670, Constants.GAME_WIDTH);
             checkCollisions();
             try {
                 Thread.sleep(100);
@@ -67,20 +69,39 @@ public class Game extends Thread implements IGame {
         }
     }
 
+    public boolean checkWallCollision(int x, int y, int width, int height) {
+        boolean aux;
+        for (Wall wall : walls) {
+            aux = wall.intersects(x, y, width, height);
+            if (aux) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void moveHeroLeft() {
-        hero.moveLeft();
+        if (!checkWallCollision(hero.getPosX()-Constants.HERO_MOVE_SIZE,hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+            hero.moveLeft();
+        }
     }
 
     public void moveHeroRight() {
-        hero.moveRight();
+        if (!checkWallCollision(hero.getPosX() + Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+            hero.moveRight();
+        }
     }
 
     public void moveHeroUP() {
-        hero.moveUp();
+        if (!checkWallCollision(hero.getPosX(), hero.getPosY()-Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+            hero.moveUp();
+        }
     }
 
     public void moveHeroDown() {
-        hero.moveDown();
+        if (!checkWallCollision(hero.getPosX(),hero.getPosY()+Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+            hero.moveDown();
+        }
     }
 
     @Override

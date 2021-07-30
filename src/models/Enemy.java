@@ -36,11 +36,6 @@ public class Enemy {
        posY+= moveSizeUpDown;
     }
 
-    public boolean checkCollision(Rectangle rectangle) {
-        Rectangle recEnemy = new Rectangle(posX, posY, Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
-        return recEnemy.intersects(rectangle);
-    }
-
     public int getPosX() {
         return posX;
     }

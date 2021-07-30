@@ -9,7 +9,7 @@ public class Constants {
     //Hero
     public static final int HERO_WIDTH = 50;
     public static final int HERO_HEIGHT = 80;
-    public static final int HERO_MOVE_SIZE = 7;
+    public static final int HERO_MOVE_SIZE = 5;
     public static final int HERO_MAX_LIVES = 3;
     public static final int HERO_INIT_POS_X = 30;
     public static final int HERO_INIT_POS_Y = 500;
