@@ -9,12 +9,14 @@ public class Game extends Thread implements IGame {
     private final Hero hero;
     private final Enemy[] enemies;
     private final Wall[] walls;
+    private final Gem[] gems;
     private boolean play;
 
     public Game() {
         hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
         enemies = new Enemy[7];
         walls = new Wall[5];
+        gems = new Gem[6];
         play = true;
         initComponents();
         start();
@@ -34,6 +36,13 @@ public class Game extends Thread implements IGame {
         walls[2] = new Wall(130, 500, 20, 220);
         walls[3] = new Wall(300, 300, 20, 420);
         walls[4] = new Wall(650, 300, 20, 420);
+
+        gems[0] = new Gem(50, 20, 30, 20);
+        gems[1] = new Gem(200, 650, 30, 20);
+        gems[2] = new Gem(450, 650, 30, 20);
+        gems[3] = new Gem(0, 90, 30, 20);
+        gems[4] = new Gem(0, 120, 30, 20);
+        gems[5] = new Gem(0, 150, 30, 20);
     }
 
     @Override
@@ -47,6 +56,7 @@ public class Game extends Thread implements IGame {
             enemies[5].moveRightLeft(670, Constants.GAME_WIDTH);
             enemies[6].moveRightLeft(670, Constants.GAME_WIDTH);
             checkCollisions();
+            checkGemCollision();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -69,6 +79,17 @@ public class Game extends Thread implements IGame {
         }
     }
 
+    private void checkGemCollision() {
+        for (int i=0;i<gems.length-1;i++) {
+            if (new Rectangle(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT).intersects(gems[i].getPosX(), gems[i].getPosY(), gems[i].getWidth(), gems[i].getHeight())){
+                gems[i].setVisible(false);
+            }
+        }
+        if (getNumberOfGems()==5 && new Rectangle(hero.getPosX(),hero.getPosY(),Constants.HERO_WIDTH,Constants.HERO_HEIGHT).intersects(gems[5].getPosX(),gems[5].getPosY(),gems[5].getWidth(),gems[5].getHeight())){
+            gems[5].setVisible(false);
+        }
+    }
+
     public boolean checkWallCollision(int x, int y, int width, int height) {
         boolean aux;
         for (Wall wall : walls) {
@@ -81,7 +102,7 @@ public class Game extends Thread implements IGame {
     }
 
     public void moveHeroLeft() {
-        if (!checkWallCollision(hero.getPosX()-Constants.HERO_MOVE_SIZE,hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (!checkWallCollision(hero.getPosX() - Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveLeft();
         }
     }
@@ -93,13 +114,13 @@ public class Game extends Thread implements IGame {
     }
 
     public void moveHeroUP() {
-        if (!checkWallCollision(hero.getPosX(), hero.getPosY()-Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (!checkWallCollision(hero.getPosX(), hero.getPosY() - Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveUp();
         }
     }
 
     public void moveHeroDown() {
-        if (!checkWallCollision(hero.getPosX(),hero.getPosY()+Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (!checkWallCollision(hero.getPosX(), hero.getPosY() + Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveDown();
         }
     }
@@ -127,6 +148,22 @@ public class Game extends Thread implements IGame {
     @Override
     public Wall[] getWalls() {
         return walls;
+    }
+
+    @Override
+    public Gem[] getGems() {
+        return gems;
+    }
+
+    @Override
+    public int getNumberOfGems() {
+        int count = 0;
+        for (Gem gem : gems) {
+            if (!gem.isVisible()) {
+                count++;
+            }
+        }
+        return count;
     }
 
 }

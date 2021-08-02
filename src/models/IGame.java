@@ -10,4 +10,8 @@ public interface IGame {
     int getHeroLives();
 
     Wall[] getWalls();
+
+    Gem[] getGems();
+
+    int getNumberOfGems();
 }
