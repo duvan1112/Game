@@ -14,4 +14,8 @@ public interface IGame {
     Gem[] getGems();
 
     int getNumberOfGems();
+
+    Energy[] getEnergy();
+
+    int getQuantityOfEnergy();
 }

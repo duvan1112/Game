@@ -18,6 +18,5 @@ public class Constants {
     public static final int ENEMY_SIZE = 45;
     public static final int ENEMY_MOVE_SIZE = 5;
 
-
-
+    public static final int ENERGY_SIZE = 10;
 }

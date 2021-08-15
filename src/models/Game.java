@@ -10,6 +10,7 @@ public class Game extends Thread implements IGame {
     private final Enemy[] enemies;
     private final Wall[] walls;
     private final Gem[] gems;
+    private final Energy[] energy;
     private boolean play;
 
     public Game() {
@@ -17,6 +18,7 @@ public class Game extends Thread implements IGame {
         enemies = new Enemy[7];
         walls = new Wall[5];
         gems = new Gem[6];
+        energy = new Energy[10];
         play = true;
         initComponents();
         start();
@@ -37,12 +39,23 @@ public class Game extends Thread implements IGame {
         walls[3] = new Wall(300, 300, 20, 420);
         walls[4] = new Wall(650, 300, 20, 420);
 
-        gems[0] = new Gem(50, 20, 30, 20);
+        gems[0] = new Gem(90, 20, 30, 20);
         gems[1] = new Gem(200, 650, 30, 20);
         gems[2] = new Gem(450, 650, 30, 20);
-        gems[3] = new Gem(0, 90, 30, 20);
-        gems[4] = new Gem(0, 120, 30, 20);
-        gems[5] = new Gem(0, 150, 30, 20);
+        gems[3] = new Gem(1000, 450, 30, 20);
+        gems[4] = new Gem(500, 30, 30, 20);
+        gems[5] = new Gem(900, 650, 30, 20);
+
+        energy[0] = new Energy(50, 450);
+        energy[1] = new Energy(50, 400);
+        energy[2] = new Energy(50, 350);
+        energy[3] = new Energy(470, 500);
+        energy[4] = new Energy(350, 450);
+        energy[5] = new Energy(900, 600);
+        energy[6] = new Energy(300, 30);
+        energy[7] = new Energy(540, 360);
+        energy[8] = new Energy(500, 200);
+        energy[9] = new Energy(90, 100);
     }
 
     @Override
@@ -57,8 +70,9 @@ public class Game extends Thread implements IGame {
             enemies[6].moveRightLeft(670, Constants.GAME_WIDTH);
             checkCollisions();
             checkGemCollision();
+            checkEnergyCollision();
             try {
-                Thread.sleep(100);
+                Thread.sleep(80);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -79,14 +93,23 @@ public class Game extends Thread implements IGame {
         }
     }
 
+    private void checkEnergyCollision() {
+        for (Energy energy1 : energy) {
+            if (energy1.intersects(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+                energy1.setVisible(false);
+            }
+        }
+    }
+
     private void checkGemCollision() {
-        for (int i=0;i<gems.length-1;i++) {
-            if (new Rectangle(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT).intersects(gems[i].getPosX(), gems[i].getPosY(), gems[i].getWidth(), gems[i].getHeight())){
+        for (int i = 0; i < gems.length - 1; i++) {
+            if (new Rectangle(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT).intersects(gems[i].getPosX(), gems[i].getPosY(), gems[i].getWidth(), gems[i].getHeight())) {
                 gems[i].setVisible(false);
             }
         }
-        if (getNumberOfGems()==5 && new Rectangle(hero.getPosX(),hero.getPosY(),Constants.HERO_WIDTH,Constants.HERO_HEIGHT).intersects(gems[5].getPosX(),gems[5].getPosY(),gems[5].getWidth(),gems[5].getHeight())){
+        if (getQuantityOfEnergy() == 10 && getNumberOfGems() == 5 && new Rectangle(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT).intersects(gems[5].getPosX(), gems[5].getPosY(), gems[5].getWidth(), gems[5].getHeight())) {
             gems[5].setVisible(false);
+            play=false;
         }
     }
 
@@ -95,32 +118,32 @@ public class Game extends Thread implements IGame {
         for (Wall wall : walls) {
             aux = wall.intersects(x, y, width, height);
             if (aux) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void moveHeroLeft() {
-        if (!checkWallCollision(hero.getPosX() - Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (checkWallCollision(hero.getPosX() - Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveLeft();
         }
     }
 
     public void moveHeroRight() {
-        if (!checkWallCollision(hero.getPosX() + Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (checkWallCollision(hero.getPosX() + Constants.HERO_MOVE_SIZE, hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveRight();
         }
     }
 
     public void moveHeroUP() {
-        if (!checkWallCollision(hero.getPosX(), hero.getPosY() - Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (checkWallCollision(hero.getPosX(), hero.getPosY() - Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveUp();
         }
     }
 
     public void moveHeroDown() {
-        if (!checkWallCollision(hero.getPosX(), hero.getPosY() + Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
+        if (checkWallCollision(hero.getPosX(), hero.getPosY() + Constants.HERO_MOVE_SIZE, Constants.HERO_WIDTH, Constants.HERO_HEIGHT)) {
             hero.moveDown();
         }
     }
@@ -160,6 +183,22 @@ public class Game extends Thread implements IGame {
         int count = 0;
         for (Gem gem : gems) {
             if (!gem.isVisible()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public Energy[] getEnergy() {
+        return energy;
+    }
+
+    @Override
+    public int getQuantityOfEnergy() {
+        int count = 0;
+        for (Energy energy : energy) {
+            if (!energy.isVisible()) {
                 count++;
             }
         }

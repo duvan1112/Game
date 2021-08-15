@@ -27,6 +27,7 @@ public class MainPanel extends JPanel {
     public void updateGame(IGame gameData) {
         paintBackground();
         paintWalls(gameData);
+        paintEnergy(gameData);
         paintGems(gameData);
         paintHero(gameData);
         paintEnemies(gameData);
@@ -47,6 +48,16 @@ public class MainPanel extends JPanel {
         g.setColor(Color.ORANGE);
         for (int i = 0; i < gameData.getWalls().length; i++) {
             g.drawRect(gameData.getWalls()[i].x, gameData.getWalls()[i].y, gameData.getWalls()[i].width, gameData.getWalls()[i].height);
+        }
+    }
+
+    private void paintEnergy(IGame gameData) {
+        Graphics g = background.getGraphics();
+        g.setColor(Color.blue);
+        for (int i = 0; i < gameData.getEnergy().length; i++) {
+            if (gameData.getEnergy()[i].isVisible()){
+                g.fillRect(gameData.getEnergy()[i].x,gameData.getEnergy()[i].y,Constants.ENERGY_SIZE,Constants.ENERGY_SIZE);
+            }
         }
     }
 
@@ -73,14 +84,13 @@ public class MainPanel extends JPanel {
         for (Enemy enemy : gameData.getEnemies()) {
             g.drawRect(enemy.getPosX(), enemy.getPosY(), Constants.ENEMY_SIZE, Constants.ENEMY_SIZE);
         }
-
     }
 
     private void paintScore(IGame gameData) {
         Graphics g = background.getGraphics();
         g.setColor(Color.WHITE);
-        g.drawString("Energia: ",800,20);
-        g.drawString("Gemas: " + gameData.getNumberOfGems(), 900, 20);
+        g.drawString("Energia: "+gameData.getQuantityOfEnergy()+" / 10",800,20);
+        g.drawString("Gemas: " + gameData.getNumberOfGems(), 920, 20);
         g.drawString("Vidas: " + gameData.getHeroLives() + " / 3", 1000, 20);
     }
 
