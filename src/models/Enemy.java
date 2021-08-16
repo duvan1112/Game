@@ -36,6 +36,30 @@ public class Enemy {
        posY+= moveSizeUpDown;
     }
 
+    public void moveLeft() {
+        if (posX - Constants.ENEMY_MOVE_SIZE >= 0) {
+            posX -= Constants.ENEMY_MOVE_SIZE;
+        }
+    }
+
+    public void moveRight() {
+        if ((posX + Constants.ENEMY_SIZE) <= Constants.GAME_WIDTH) {
+            posX += Constants.ENEMY_MOVE_SIZE;
+        }
+    }
+
+    public void moveUp() {
+        if ((posY - Constants.ENEMY_MOVE_SIZE) >= 0) {
+            posY -= Constants.ENEMY_MOVE_SIZE;
+        }
+    }
+
+    public void moveDown() {
+        if ((posY + Constants.ENEMY_SIZE) <= (Constants.GAME_HEIGHT-Constants.BORDER_SIZE_TOP)) {
+            posY += Constants.ENEMY_MOVE_SIZE;
+        }
+    }
+
     public int getPosX() {
         return posX;
     }

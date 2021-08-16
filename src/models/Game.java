@@ -72,7 +72,7 @@ public class Game extends Thread implements IGame {
             checkGemCollision();
             checkEnergyCollision();
             try {
-                Thread.sleep(80);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -187,6 +187,10 @@ public class Game extends Thread implements IGame {
             }
         }
         return count;
+    }
+
+    public void setPlay(boolean play) {
+        this.play = play;
     }
 
     @Override

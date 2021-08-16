@@ -11,6 +11,7 @@ import java.util.Objects;
 public class JFMainWindow extends JFrame {
 
     private final MainPanel mainPanel;
+    private static int topEdge;
 
     public JFMainWindow(KeyListener keyListener) {
         setSize(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
@@ -24,9 +25,14 @@ public class JFMainWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
         setVisible(true);
         mainPanel.init();
+        topEdge = getHeight() - getContentPane().getHeight();
     }
 
-    public void refreshGame(IGame gameData){
+    public static int getTopEdge() {
+        return topEdge;
+    }
+
+    public void refreshGame(IGame gameData) {
         mainPanel.updateGame(gameData);
     }
 }

@@ -21,7 +21,17 @@ public class Presenter implements ActionListener, KeyListener {
     }
 
     private void updateUi() {
-        Timer timerUpdate = new Timer(1, e -> window.refreshGame(game));
+        Timer timerUpdate = new Timer(1, e -> {
+
+            if (game.getNumberOfGems() == 6 || game.getHeroLives() == 0) {
+                window.refreshGame(game);
+                game.setPlay(false);
+                JOptionPane.showMessageDialog(null, "Game Over");
+                ((Timer)e.getSource()).stop();
+            } else {
+                window.refreshGame(game);
+            }
+        });
         timerUpdate.start();
     }
 
@@ -38,13 +48,13 @@ public class Presenter implements ActionListener, KeyListener {
             case KeyEvent.VK_LEFT:
                 game.moveHeroLeft();
                 break;
-            case KeyEvent.VK_RIGHT :
+            case KeyEvent.VK_RIGHT:
                 game.moveHeroRight();
                 break;
-            case KeyEvent.VK_UP :
+            case KeyEvent.VK_UP:
                 game.moveHeroUP();
                 break;
-            case KeyEvent.VK_DOWN :
+            case KeyEvent.VK_DOWN:
                 game.moveHeroDown();
                 break;
         }

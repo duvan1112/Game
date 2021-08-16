@@ -35,7 +35,7 @@ public class Hero {
     }
 
     public void moveDown() {
-        if ((posY + Constants.HERO_HEIGHT) <= Constants.GAME_HEIGHT) {
+        if ((posY + Constants.HERO_HEIGHT) <= (Constants.GAME_HEIGHT-Constants.BORDER_SIZE_TOP)) {
             posY += Constants.HERO_MOVE_SIZE;
         }
     }
