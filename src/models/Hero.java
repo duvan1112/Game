@@ -42,7 +42,7 @@ public class Hero {
 
     public boolean checkCollision(Enemy enemy) {
         Rectangle heroRec = new Rectangle(posX, posY, Constants.HERO_WIDTH, Constants.HERO_HEIGHT);
-        return heroRec.intersects(new Rectangle(enemy.getPosX(), enemy.getPosY(), Constants.ENEMY_SIZE, Constants.ENEMY_SIZE)) && enemy.isAttack();
+        return heroRec.intersects(new Rectangle(enemy.getPosX(), enemy.getPosY(), Constants.ENEMY_SIZE, Constants.ENEMY_SIZE));
     }
 
     public void reduceLives() {

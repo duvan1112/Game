@@ -7,6 +7,8 @@ public interface IGame {
 
     Enemy[] getEnemies();
 
+    Enemy getPacman();
+
     int getHeroLives();
 
     Wall[] getWalls();

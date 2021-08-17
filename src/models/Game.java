@@ -3,24 +3,30 @@ package models;
 import presenters.Constants;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class Game extends Thread implements IGame {
 
     private final Hero hero;
     private final Enemy[] enemies;
+    private final Enemy pacman;
     private final Wall[] walls;
     private final Gem[] gems;
     private final Energy[] energy;
     private boolean play;
+    private Sound music;
 
     public Game() {
         hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
+        music = new Sound(Constants.MUSIC_SOUND);
         enemies = new Enemy[7];
+        pacman = new Enemy(800, 20);
         walls = new Wall[5];
         gems = new Gem[6];
         energy = new Energy[10];
         play = true;
         initComponents();
+        music.run();
         start();
     }
 
@@ -30,8 +36,8 @@ public class Game extends Thread implements IGame {
         enemies[2] = new Enemy(320, 350);
         enemies[3] = new Enemy(600, 450);
         enemies[4] = new Enemy(350, 530);
-        enemies[5] = new Enemy(900, 400);
-        enemies[6] = new Enemy(800, 500);
+        enemies[5] = new Enemy(680, 400);
+        enemies[6] = new Enemy(1000, 500);
 
         walls[0] = new Wall(0, 300, 150, 20);
         walls[1] = new Wall(200, 0, 20, 150);
@@ -39,12 +45,12 @@ public class Game extends Thread implements IGame {
         walls[3] = new Wall(300, 300, 20, 420);
         walls[4] = new Wall(650, 300, 20, 420);
 
-        gems[0] = new Gem(90, 20, 30, 20);
-        gems[1] = new Gem(200, 650, 30, 20);
-        gems[2] = new Gem(450, 650, 30, 20);
-        gems[3] = new Gem(1000, 450, 30, 20);
-        gems[4] = new Gem(500, 30, 30, 20);
-        gems[5] = new Gem(900, 650, 30, 20);
+        gems[0] = new Gem(90, 20, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[1] = new Gem(200, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[2] = new Gem(450, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[3] = new Gem(1000, 450, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[4] = new Gem(500, 30, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[5] = new Gem(900, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
 
         energy[0] = new Energy(50, 450);
         energy[1] = new Energy(50, 400);
@@ -61,6 +67,7 @@ public class Game extends Thread implements IGame {
     @Override
     public void run() {
         while (play) {
+            movePacman();
             enemies[0].moveUpDown(0, 300);
             enemies[1].moveRightLeft(0, Constants.GAME_WIDTH);
             enemies[2].moveRightLeft(320, 650);
@@ -72,16 +79,31 @@ public class Game extends Thread implements IGame {
             checkGemCollision();
             checkEnergyCollision();
             try {
-                Thread.sleep(25);
+                Thread.sleep(40);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void movePacman() {
+        if (hero.getPosX() > pacman.getPosX()) {
+            pacman.moveRight(1);
+        }
+        if (hero.getPosX() < pacman.getPosX()) {
+            pacman.moveLeft(1);
+        }
+        if (hero.getPosY() < pacman.getPosY()) {
+            pacman.moveUp(1);
+        }
+        if (hero.getPosY() > pacman.getPosY()) {
+            pacman.moveDown(1);
+        }
+    }
+
     private void checkCollisions() {
         for (Enemy enemy : enemies) {
-            if (hero.checkCollision(enemy)) {
+            if (hero.checkCollision(enemy)||hero.checkCollision(pacman)) {
                 hero.setPosX(Constants.HERO_INIT_POS_X);
                 hero.setPosY(Constants.HERO_INIT_POS_Y);
                 hero.reduceLives();
@@ -109,7 +131,7 @@ public class Game extends Thread implements IGame {
         }
         if (getQuantityOfEnergy() == 10 && getNumberOfGems() == 5 && new Rectangle(hero.getPosX(), hero.getPosY(), Constants.HERO_WIDTH, Constants.HERO_HEIGHT).intersects(gems[5].getPosX(), gems[5].getPosY(), gems[5].getWidth(), gems[5].getHeight())) {
             gems[5].setVisible(false);
-            play=false;
+            play = false;
         }
     }
 
@@ -161,6 +183,11 @@ public class Game extends Thread implements IGame {
     @Override
     public Enemy[] getEnemies() {
         return enemies;
+    }
+
+    @Override
+    public Enemy getPacman() {
+        return pacman;
     }
 
     @Override

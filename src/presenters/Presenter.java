@@ -22,7 +22,6 @@ public class Presenter implements ActionListener, KeyListener {
 
     private void updateUi() {
         Timer timerUpdate = new Timer(1, e -> {
-
             if (game.getNumberOfGems() == 6 || game.getHeroLives() == 0) {
                 window.refreshGame(game);
                 game.setPlay(false);
