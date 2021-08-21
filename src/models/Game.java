@@ -3,22 +3,20 @@ package models;
 import presenters.Constants;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class Game extends Thread implements IGame {
 
-    private final Hero hero;
-    private final Enemy[] enemies;
-    private final Enemy pacman;
+    private Hero hero;
+    private Enemy[] enemies;
+    private Enemy pacman;
     private final Wall[] walls;
     private final Gem[] gems;
     private final Energy[] energy;
     private boolean play;
-    private Sound music;
 
     public Game() {
         hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
-        music = new Sound(Constants.MUSIC_SOUND);
+        Sound music = new Sound(Constants.MUSIC_SOUND);
         enemies = new Enemy[7];
         pacman = new Enemy(800, 20);
         walls = new Wall[5];
@@ -79,7 +77,7 @@ public class Game extends Thread implements IGame {
             checkGemCollision();
             checkEnergyCollision();
             try {
-                Thread.sleep(40);
+                Thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -103,7 +101,8 @@ public class Game extends Thread implements IGame {
 
     private void checkCollisions() {
         for (Enemy enemy : enemies) {
-            if (hero.checkCollision(enemy)||hero.checkCollision(pacman)) {
+            if (hero.checkCollision(enemy) || hero.checkCollision(pacman)) {
+                deathSound();
                 hero.setPosX(Constants.HERO_INIT_POS_X);
                 hero.setPosY(Constants.HERO_INIT_POS_Y);
                 hero.reduceLives();
@@ -113,6 +112,11 @@ public class Game extends Thread implements IGame {
                 }
             }
         }
+    }
+
+    private void deathSound() {
+        Sound deathSound = new Sound(Constants.DEATH_SOUND);
+        deathSound.run();
     }
 
     private void checkEnergyCollision() {
@@ -170,6 +174,24 @@ public class Game extends Thread implements IGame {
         }
     }
 
+    public void setHero(Hero hero) {
+        this.hero = hero;
+    }
+
+    public void setEnemies(int[] e) {
+        enemies[0].setPosY(e[0]);
+        enemies[1].setPosX(e[1]);
+        enemies[2].setPosX(e[2]);
+        enemies[3].setPosX(e[3]);
+        enemies[4].setPosX(e[4]);
+        enemies[5].setPosX(e[5]);
+        enemies[6].setPosX(e[6]);
+    }
+
+    public void setPacman(Enemy pacman) {
+        this.pacman = pacman;
+    }
+
     @Override
     public int getHeroPositionX() {
         return hero.getPosX();
@@ -220,6 +242,10 @@ public class Game extends Thread implements IGame {
         this.play = play;
     }
 
+    public boolean isPlaying(){
+        return play;
+    }
+
     @Override
     public Energy[] getEnergy() {
         return energy;
@@ -235,5 +261,6 @@ public class Game extends Thread implements IGame {
         }
         return count;
     }
+
 
 }

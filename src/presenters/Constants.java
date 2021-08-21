@@ -29,7 +29,11 @@ public class Constants {
     public static final int GEM_HEIGHT = 40;
 
     //img
-    public static final String IMAGE_HERO= "/resources/images/blackWidow.png";
+    public static final String IMAGE_HERO_IRONMAN= "/resources/images/ironMan.png";
+    public static final String IMAGE_HERO_BLACK_WIDOW="/resources/images/blackWidow.png";
+    public static final String IMAGE_HERO_SPIDERMAN="/resources/images/spiderman.png";
+    public static final String IMAGE_HERO_ODIN="/resources/images/MyOdin.png";
+
     public static final String IMAGE_GHOST="/resources/images/ghost.png";
     public static final String IMAGE_ENERGY="/resources/images/Energy.png";
     public static final String IMAGE_GEMS = "/resources/images/Gems.png";
@@ -37,4 +41,5 @@ public class Constants {
 
     //sound
     public static final String MUSIC_SOUND = "/resources/sounds/Arcade_DimitriVegas.wav";
+    public static final String DEATH_SOUND = "/resources/sounds/deathSound.wav";
 }

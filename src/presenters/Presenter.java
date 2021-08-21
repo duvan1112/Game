@@ -1,6 +1,7 @@
 package presenters;
 
 import models.Game;
+import persistence.FileManager;
 import views.JFMainWindow;
 
 import javax.swing.*;
@@ -13,16 +14,18 @@ public class Presenter implements ActionListener, KeyListener {
 
     private final JFMainWindow window;
     private final Game game;
-
+    private final FileManager fileManager;
     public Presenter() {
+        fileManager = new FileManager();
         game = new Game();
         window = new JFMainWindow(this);
         updateUi();
+        autoSave();
     }
 
     private void updateUi() {
         Timer timerUpdate = new Timer(1, e -> {
-            if (game.getNumberOfGems() == 6 || game.getHeroLives() == 0) {
+            if (game.getHeroLives() == 0) {
                 window.refreshGame(game);
                 game.setPlay(false);
                 JOptionPane.showMessageDialog(null, "Game Over");
@@ -34,6 +37,22 @@ public class Presenter implements ActionListener, KeyListener {
         timerUpdate.start();
     }
 
+    private void autoSave(){
+        new Thread(() ->{
+            while (game.isPlaying()){
+                saveGame();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void saveGame() {
+        fileManager.write(game);
+    }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {

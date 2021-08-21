@@ -25,7 +25,7 @@ public class MainPanel extends JPanel {
     private boolean pacmanDirection;
 
     public MainPanel(KeyListener keyListener) {
-        imgHero = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_HERO))).getImage(), Constants.HERO_WIDTH * 3, Constants.HERO_HEIGHT));
+        imgHero = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_HERO_SPIDERMAN))).getImage(), Constants.HERO_WIDTH * 3, Constants.HERO_HEIGHT));
         imgGems = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_GEMS))).getImage(), Constants.GEM_WIDTH, Constants.GEM_HEIGHT * 6));
         imgPacman = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PACMAN))).getImage(), Constants.PACMAN_SIZE * 6, Constants.PACMAN_SIZE));
 
