@@ -22,7 +22,7 @@ public class Constants {
     public static final int ENEMY_MOVE_SIZE = 2;
 
     //Energy
-    public static final int ENERGY_SIZE = 10;
+    public static final int ENERGY_SIZE = 15;
 
     //Gems
     public static final int GEM_WIDTH = 40;

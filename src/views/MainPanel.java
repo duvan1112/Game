@@ -17,6 +17,8 @@ public class MainPanel extends JPanel {
     private BufferedImage background;
     private final Image imgEnergy;
     private final Image imgGhost;
+    private Image wall1;
+    private Image wall2;
     private final BufferedImage imgHero;
     private final BufferedImage imgGems;
     private final BufferedImage imgPacman;
@@ -31,7 +33,8 @@ public class MainPanel extends JPanel {
 
         imgEnergy = new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_ENERGY))).getImage();
         imgGhost = new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_GHOST))).getImage();
-
+        wall1 = new ImageIcon(Objects.requireNonNull(getClass().getResource("/resources/images/wall2.jpg"))).getImage();
+        wall2 = new ImageIcon(Objects.requireNonNull(getClass().getResource("/resources/images/wall.jpg"))).getImage();
         setBackground(Color.BLACK);
         addKeyListener(keyListener);
         heroAnimation();
@@ -105,7 +108,12 @@ public class MainPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setStroke(new BasicStroke(5));
         for (int i = 0; i < gameData.getWalls().length; i++) {
-            graphics2D.drawRect(gameData.getWalls()[i].x, gameData.getWalls()[i].y, gameData.getWalls()[i].width, gameData.getWalls()[i].height);
+            if (i==0){
+                graphics2D.drawImage(wall1,gameData.getWalls()[i].x, gameData.getWalls()[i].y, gameData.getWalls()[i].width, gameData.getWalls()[i].height,this);
+            }else {
+                graphics2D.drawImage(wall2,gameData.getWalls()[i].x, gameData.getWalls()[i].y, gameData.getWalls()[i].width, gameData.getWalls()[i].height,this);
+            }
+//            graphics2D.drawRect(gameData.getWalls()[i].x, gameData.getWalls()[i].y, gameData.getWalls()[i].width, gameData.getWalls()[i].height);
         }
     }
 

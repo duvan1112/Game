@@ -1,1 +1,1 @@
-{"heroY":500,"pacmanX":775,"heroX":30,"pacmanY":45,"enemies":[70,550,370,550,400,730,1010]}
+{"gems":[{"x":90,"y":20,"isVisible":true},{"x":200,"y":650,"isVisible":true},{"x":450,"y":650,"isVisible":true},{"x":1000,"y":450,"isVisible":true},{"x":500,"y":30,"isVisible":true},{"x":900,"y":650,"isVisible":true}],"heroY":500,"pacmanX":286,"heroX":30,"pacmanY":500,"enemies":[48,532,412,508,382,988,752]}
