@@ -1,9 +1,9 @@
 package presenters;
 
 import models.Game;
+import models.Sound;
 import persistence.FileManager;
 import views.JFMainWindow;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,14 +13,13 @@ import java.awt.event.KeyListener;
 public class Presenter implements ActionListener, KeyListener {
 
     private final JFMainWindow window;
-    private final Game game;
+    private Game game;
     private final FileManager fileManager;
+
     public Presenter() {
         fileManager = new FileManager();
-        game = new Game();
-        window = new JFMainWindow(this);
-        updateUi();
-        autoSave();
+        window = new JFMainWindow(this, this);
+        window.showMainMenu();
     }
 
     private void updateUi() {
@@ -28,8 +27,11 @@ public class Presenter implements ActionListener, KeyListener {
             if (game.getHeroLives() == 0) {
                 window.refreshGame(game);
                 game.setPlay(false);
-                JOptionPane.showMessageDialog(null, "Game Over");
-                ((Timer)e.getSource()).stop();
+                window.showDefeatDialog(true);
+                ((Timer) e.getSource()).stop();
+            } else if(game.getNumberOfGems()==6){
+                window.showVictoryDialog(true);
+                ((Timer) e.getSource()).stop();
             } else {
                 window.refreshGame(game);
             }
@@ -37,9 +39,9 @@ public class Presenter implements ActionListener, KeyListener {
         timerUpdate.start();
     }
 
-    private void autoSave(){
-        new Thread(() ->{
-            while (game.isPlaying()){
+    private void autoSave() {
+        new Thread(() -> {
+            while (game.isPlaying()) {
                 saveGame();
                 try {
                     Thread.sleep(5000);
@@ -56,7 +58,56 @@ public class Presenter implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        switch (Commands.valueOf(actionEvent.getActionCommand())) {
+            case NEW_GAME:
+                initGame();
+                break;
+            case CONTINUE_GAME:
+                continueGame();
+                break;
+            case HEROES:
+                heroes();
+                break;
+            case MUSIC:
+                music();
+                break;
+            case EXIT:
+                System.exit(0);
+                break;
+            case MENU:
+                window.showVictoryDialog(false);
+                window.showDefeatDialog(false);
+                window.showMainMenu();
+                break;
+        }
+    }
 
+    private void music() {
+
+    }
+
+    private void heroes() {
+
+    }
+
+    private void continueGame() {
+        window.showVictoryDialog(false);
+        window.showDefeatDialog(false);
+        game = new Game();
+        //setts
+        window.initGameScreen();
+        updateUi();
+        autoSave();
+    }
+
+    private void initGame() {
+        window.showVictoryDialog(false);
+        window.showDefeatDialog(false);
+
+        game = new Game();
+        window.initGameScreen();
+        updateUi();
+        autoSave();
     }
 
     @Override

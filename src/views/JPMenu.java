@@ -2,27 +2,18 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class JPMenu extends JPanel {
-    public JPMenu() {
-        initComponents();
+    public JPMenu(ActionListener actionListener) {
+        initComponents(actionListener);
     }
 
-    private void initComponents() {
+    private void initComponents(ActionListener actionListener) {
         setLayout(new GridLayout(0,2));
-        JPMenuLeft jpMenuRight = new JPMenuLeft();
+        JPMenuLeft jpMenuRight = new JPMenuLeft(actionListener);
         add(jpMenuRight);
         JPMenuRight jpMenuLeft = new JPMenuRight();
         add(jpMenuLeft);
-
-    }
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(1080,720);
-        frame.add(new JPMenu());
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
     }
 }

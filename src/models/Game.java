@@ -13,18 +13,19 @@ public class Game extends Thread implements IGame {
     private final Gem[] gems;
     private final Energy[] energy;
     private boolean play;
+    private Sound sound;
 
     public Game() {
         hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
-        Sound music = new Sound(Constants.MUSIC_SOUND);
         enemies = new Enemy[7];
         pacman = new Enemy(800, 20);
         walls = new Wall[5];
         gems = new Gem[6];
         energy = new Energy[10];
         play = true;
+        sound = new Sound(Constants.MUSIC_SOUND);
+        sound.run();
         initComponents();
-        music.run();
         start();
     }
 
@@ -82,6 +83,7 @@ public class Game extends Thread implements IGame {
                 e.printStackTrace();
             }
         }
+        sound.stop();
     }
 
     private void movePacman() {
@@ -115,8 +117,7 @@ public class Game extends Thread implements IGame {
     }
 
     private void deathSound() {
-        Sound deathSound = new Sound(Constants.DEATH_SOUND);
-        deathSound.run();
+        new Sound(Constants.DEATH_SOUND).run();
     }
 
     private void checkEnergyCollision() {

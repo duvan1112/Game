@@ -32,7 +32,7 @@ public class PopUpWindow extends JWindow {
 
         buttons = new JButton[3];
         String[] btnText = {"Menu", "Volver a Jugar", "Salir"};
-        String[] command = {Commands.MENU.toString(), Commands.NEW_GAME.toString(), Commands.EXIT.toString()};
+        String[] commands = {Commands.MENU.toString(), Commands.NEW_GAME.toString(), Commands.EXIT.toString()};
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(btnText[i]);
             buttons[i].setBackground(Color.decode("#b50000"));
@@ -41,14 +41,9 @@ public class PopUpWindow extends JWindow {
             buttons[i].setFont(new Font("Times New Roman", Font.BOLD, 40));
             buttons[i].setForeground(Color.lightGray);
             buttons[i].addActionListener(actionListener);
-            buttons[i].setActionCommand(command[i]);
+            buttons[i].setActionCommand(commands[i]);
             jPanel.add(buttons[i]);
         }
         add(jPanel);
-    }
-
-    public static void main(String[] args) {
-        PopUpWindow w= new PopUpWindow("Derrota",null,null);
-        w.setVisible(true);
     }
 }
