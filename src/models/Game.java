@@ -24,7 +24,6 @@ public class Game extends Thread implements IGame {
         energy = new Energy[10];
         play = true;
         sound = new Sound(Constants.MUSIC_SOUND);
-        sound.run();
         initComponents();
         start();
     }
@@ -306,5 +305,9 @@ public class Game extends Thread implements IGame {
 
     public void setHeroLives(int lives) {
         hero.setLives(lives);
+    }
+
+    public Sound getSound() {
+        return sound;
     }
 }

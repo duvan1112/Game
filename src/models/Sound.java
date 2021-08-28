@@ -24,6 +24,8 @@ public class Sound implements Runnable{
     }
 
     public void stop() {
-        this.clip.stop();
+        if (clip!=null){
+            this.clip.stop();
+        }
     }
 }

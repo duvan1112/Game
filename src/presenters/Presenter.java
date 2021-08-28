@@ -14,9 +14,11 @@ public class Presenter implements ActionListener, KeyListener {
     private final JFMainWindow window;
     private Game game;
     private final FileManager fileManager;
+    private boolean music;
 
     public Presenter() {
         fileManager = new FileManager();
+        music = true;
         window = new JFMainWindow(this, this);
     }
 
@@ -67,7 +69,7 @@ public class Presenter implements ActionListener, KeyListener {
                 heroes();
                 break;
             case MUSIC:
-                music();
+                music=window.musicBtn();
                 break;
             case EXIT:
                 System.exit(0);
@@ -96,10 +98,6 @@ public class Presenter implements ActionListener, KeyListener {
         }
     }
 
-    private void music() {
-
-    }
-
     private void heroes() {
         window.setVisibleHeroes(true);
     }
@@ -109,36 +107,46 @@ public class Presenter implements ActionListener, KeyListener {
         window.showDefeatDialog(false);
         //setts
         String[] data =fileManager.readJson();
-        game = new Game(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]),Integer.parseInt(data[3]));
-        int[] posEnemies = new int[7];
-        for (int i = 0; i < posEnemies.length; i++) {
-            posEnemies[i]= Integer.parseInt(data[i+10]);
-        }
-        game.loadComponents(posEnemies);
+        if (Integer.parseInt(data[27])!=0) {
+            game = new Game(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
+            int[] posEnemies = new int[7];
+            for (int i = 0; i < posEnemies.length; i++) {
+                posEnemies[i] = Integer.parseInt(data[i + 10]);
+            }
+            game.loadComponents(posEnemies);
 
-        boolean[]  gems= new boolean[6];
-        for (int i = 0; i < gems.length; i++) {
-            gems[i]= Boolean.parseBoolean(data[i+4]);
-            System.out.println(i);
-        }
-        game.setVisibleGems(gems);
+            boolean[] gems = new boolean[6];
+            for (int i = 0; i < gems.length; i++) {
+                gems[i] = Boolean.parseBoolean(data[i + 4]);
+                System.out.println(i);
+            }
+            game.setVisibleGems(gems);
 
-        boolean[]  energy= new boolean[10];
-        for (int i = 0; i < energy.length; i++) {
-            energy[i]= Boolean.parseBoolean(data[i+17]);
+            boolean[] energy = new boolean[10];
+            for (int i = 0; i < energy.length; i++) {
+                energy[i] = Boolean.parseBoolean(data[i + 17]);
+            }
+            game.setVisibleEnergy(energy);
+            game.setHeroLives(Integer.parseInt(data[27]));
+            if (music) {
+                game.getSound().run();
+            }
+            window.initGameScreen();
+            updateUi();
+            autoSave();
+        }else {
+            initGame();
         }
-        game.setVisibleEnergy(energy);
-        game.setHeroLives(Integer.parseInt(data[27]));
 
-        window.initGameScreen();
-        updateUi();
-        autoSave();
     }
 
     private void initGame() {
         window.showVictoryDialog(false);
         window.showDefeatDialog(false);
         game = new Game();
+        if (music){
+            game.getSound().run();
+        }
         window.initGameScreen();
         updateUi();
         autoSave();

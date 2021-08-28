@@ -69,4 +69,7 @@ public class JFMainWindow extends JFrame {
     public void setHeroPath(String path){
         mainPanel.setHeroPath(path);
     }
+    public boolean musicBtn(){
+        return mainMenu.musicBtn();
+    }
 }

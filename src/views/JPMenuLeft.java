@@ -39,4 +39,14 @@ public class JPMenuLeft extends JPanel {
             add(buttons[i]);
         }
     }
+
+    public boolean manageMusicBtn() {
+        if (buttons[3].getText().equals("Música: On")) {
+            buttons[3].setText("Música: Of");
+            return false;
+        }else{
+            buttons[3].setText("Música: On");
+            return true;
+        }
+    }
 }
