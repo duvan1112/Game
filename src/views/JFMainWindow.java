@@ -15,6 +15,7 @@ public class JFMainWindow extends JFrame {
     private final PopUpWindow defeat;
     private final PopUpWindow victory;
     private final JPMenu mainMenu;
+    private JDHeroes jdHeroes;
     private static int topEdge;
 
     public JFMainWindow(KeyListener keyListener, ActionListener actionListener) {
@@ -26,8 +27,10 @@ public class JFMainWindow extends JFrame {
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/resources/images/mainIcon.png"))).getImage());
         mainMenu = new JPMenu(actionListener);
         mainPanel = new MainPanel(keyListener);
+        jdHeroes = new JDHeroes(actionListener);
         defeat = new PopUpWindow("Derrota", this, actionListener);
         victory = new PopUpWindow("Victoria", this, actionListener);
+        add(mainMenu);
         setVisible(true);
         topEdge = getHeight() - getContentPane().getHeight();
     }
@@ -39,7 +42,9 @@ public class JFMainWindow extends JFrame {
     public void refreshGame(IGame gameData) {
         mainPanel.updateGame(gameData);
     }
-
+    public void setVisibleHeroes(boolean b){
+        jdHeroes.setVisible(b);
+    }
     public void initGameScreen() {
         remove(mainMenu);
         add(mainPanel, BorderLayout.CENTER);
@@ -59,5 +64,9 @@ public class JFMainWindow extends JFrame {
 
     public void showVictoryDialog(boolean b){
         victory.setVisible(b);
+    }
+
+    public void setHeroPath(String path){
+        mainPanel.setHeroPath(path);
     }
 }

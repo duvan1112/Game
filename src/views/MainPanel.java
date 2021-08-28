@@ -15,11 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MainPanel extends JPanel {
 
     private BufferedImage background;
+    private String heroPath;
     private final Image imgEnergy;
     private final Image imgGhost;
     private Image wall1;
     private Image wall2;
-    private final BufferedImage imgHero;
+    private BufferedImage imgHero;
     private final BufferedImage imgGems;
     private final BufferedImage imgPacman;
     private Image subImageHero;
@@ -28,7 +29,8 @@ public class MainPanel extends JPanel {
 
     public MainPanel(KeyListener keyListener) {
         setSize(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
-        imgHero = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_HERO_SPIDERMAN))).getImage(), Constants.HERO_WIDTH * 3, Constants.HERO_HEIGHT));
+        heroPath =Constants.IMAGE_HERO_IRONMAN;
+        imgHero = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(heroPath))).getImage(), Constants.HERO_WIDTH * 3, Constants.HERO_HEIGHT));
         imgGems = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_GEMS))).getImage(), Constants.GEM_WIDTH, Constants.GEM_HEIGHT * 6));
         imgPacman = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(Constants.IMAGE_PACMAN))).getImage(), Constants.PACMAN_SIZE * 6, Constants.PACMAN_SIZE));
 
@@ -170,5 +172,10 @@ public class MainPanel extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         g.drawImage(background, 0, 0, this);
+    }
+
+    public void setHeroPath(String heroPath){
+        this.heroPath = heroPath;
+        imgHero = Utilities.imageToBufferedImage(Utilities.getScaledImage(new ImageIcon(Objects.requireNonNull(getClass().getResource(heroPath))).getImage(), Constants.HERO_WIDTH * 3, Constants.HERO_HEIGHT));
     }
 }

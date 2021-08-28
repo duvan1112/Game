@@ -69,6 +69,10 @@ public class Hero {
         this.posY = posY;
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     public boolean isTotallyDead() {
         return lives <= 0;
     }

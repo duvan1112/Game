@@ -6,14 +6,14 @@ import java.awt.*;
 
 public class Game extends Thread implements IGame {
 
-    private Hero hero;
-    private Enemy[] enemies;
-    private Enemy pacman;
+    private final Hero hero;
+    private final Enemy[] enemies;
+    private final Enemy pacman;
     private final Wall[] walls;
     private final Gem[] gems;
     private final Energy[] energy;
     private boolean play;
-    private Sound sound;
+    private final Sound sound;
 
     public Game() {
         hero = new Hero(Constants.HERO_INIT_POS_X, Constants.HERO_INIT_POS_Y);
@@ -26,6 +26,53 @@ public class Game extends Thread implements IGame {
         sound = new Sound(Constants.MUSIC_SOUND);
         sound.run();
         initComponents();
+        start();
+    }
+
+    public Game(int heroX, int heroY, int pacX, int pacY) {
+        hero = new Hero(heroX, heroY);
+        enemies = new Enemy[7];
+        pacman = new Enemy(pacX, pacY);
+        walls = new Wall[5];
+        gems = new Gem[6];
+        energy = new Energy[10];
+        play = true;
+        sound = new Sound(Constants.MUSIC_SOUND);
+        sound.run();
+    }
+
+    public void loadComponents(int[] enemyPos) {
+        enemies[0] = new Enemy(80, enemyPos[0]);
+        enemies[1] = new Enemy(enemyPos[1], 200);
+        enemies[2] = new Enemy(enemyPos[2], 350);
+        enemies[3] = new Enemy(enemyPos[3], 450);
+        enemies[4] = new Enemy(enemyPos[4], 530);
+        enemies[5] = new Enemy(enemyPos[5], 400);
+        enemies[6] = new Enemy(enemyPos[6], 500);
+
+        walls[0] = new Wall(0, 300, 150, 20);
+        walls[1] = new Wall(200, 0, 20, 150);
+        walls[2] = new Wall(130, 500, 20, 220);
+        walls[3] = new Wall(300, 300, 20, 420);
+        walls[4] = new Wall(650, 300, 20, 420);
+
+        gems[0] = new Gem(90, 20, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[1] = new Gem(200, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[2] = new Gem(450, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[3] = new Gem(1000, 450, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[4] = new Gem(500, 30, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+        gems[5] = new Gem(900, 650, Constants.GEM_WIDTH, Constants.GEM_HEIGHT);
+
+        energy[0] = new Energy(50, 450);
+        energy[1] = new Energy(50, 400);
+        energy[2] = new Energy(50, 350);
+        energy[3] = new Energy(470, 500);
+        energy[4] = new Energy(350, 450);
+        energy[5] = new Energy(900, 600);
+        energy[6] = new Energy(300, 30);
+        energy[7] = new Energy(540, 360);
+        energy[8] = new Energy(500, 200);
+        energy[9] = new Energy(90, 100);
         start();
     }
 
@@ -175,24 +222,6 @@ public class Game extends Thread implements IGame {
         }
     }
 
-    public void setHero(Hero hero) {
-        this.hero = hero;
-    }
-
-    public void setEnemies(int[] e) {
-        enemies[0].setPosY(e[0]);
-        enemies[1].setPosX(e[1]);
-        enemies[2].setPosX(e[2]);
-        enemies[3].setPosX(e[3]);
-        enemies[4].setPosX(e[4]);
-        enemies[5].setPosX(e[5]);
-        enemies[6].setPosX(e[6]);
-    }
-
-    public void setPacman(Enemy pacman) {
-        this.pacman = pacman;
-    }
-
     @Override
     public int getHeroPositionX() {
         return hero.getPosX();
@@ -243,7 +272,7 @@ public class Game extends Thread implements IGame {
         this.play = play;
     }
 
-    public boolean isPlaying(){
+    public boolean isPlaying() {
         return play;
     }
 
@@ -263,5 +292,19 @@ public class Game extends Thread implements IGame {
         return count;
     }
 
+    public void setVisibleGems(boolean[] booleans) {
+        for (int i = 0; i < gems.length; i++) {
+            gems[i].setVisible(booleans[i]);
+        }
+    }
 
+    public void setVisibleEnergy(boolean[] booleans) {
+        for (int i = 0; i < energy.length; i++) {
+            energy[i].setVisible(booleans[i]);
+        }
+    }
+
+    public void setHeroLives(int lives) {
+        hero.setLives(lives);
+    }
 }
