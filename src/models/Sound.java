@@ -1,7 +1,9 @@
 package models;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class Sound implements Runnable{
@@ -15,7 +17,8 @@ public class Sound implements Runnable{
     public void run() {
         try {
             clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+            InputStream bufferedIn = new BufferedInputStream(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip.open(inputStream);
             clip.start();
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {

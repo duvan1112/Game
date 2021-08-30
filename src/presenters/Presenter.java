@@ -109,6 +109,7 @@ public class Presenter implements ActionListener, KeyListener {
         String[] data =fileManager.readJson();
         if (Integer.parseInt(data[27])!=0) {
             game = new Game(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
+            game.getSound().stop();
             int[] posEnemies = new int[7];
             for (int i = 0; i < posEnemies.length; i++) {
                 posEnemies[i] = Integer.parseInt(data[i + 10]);
@@ -118,7 +119,6 @@ public class Presenter implements ActionListener, KeyListener {
             boolean[] gems = new boolean[6];
             for (int i = 0; i < gems.length; i++) {
                 gems[i] = Boolean.parseBoolean(data[i + 4]);
-                System.out.println(i);
             }
             game.setVisibleGems(gems);
 
